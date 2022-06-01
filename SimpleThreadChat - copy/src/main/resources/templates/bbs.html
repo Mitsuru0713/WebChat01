@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<title>WebChat</title>
+</head>
+<body>
+<div class="container" style="background-color:#EEFFFF;">
+	<a href="./index.html" th:href="@{/}">スレッド一覧へ</a>
+	<div class="row gy-3">
+		<div class="row gx-5">
+			<h1 th:text="${userThread.threadId}" class="col-5" style="text-align:right">1</h1>
+			<h1 th:text="${userThread.title}" class="col-7" >title</h1>
+		</div>
+		<h4 class="h4" style="text-align:center">コメントはこちらから</h4>
+	</div>
+	<div class="row">
+		<div class="col-lg-4">
+		</div>
+		<div class="col-lg-4 col">
+			<form  action="./bbs.html" th:action="@{/add/{userThread}(userThread=${userThread.threadId})}" th:object=${userCommentForm} method="POST">
+				<div class="mb-3">	
+					<label for="exampleFormControlInput1" class="form-label">名前</label>
+					<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="username" name="userName" th:field="*{userName}">
+				</div>
+				<div class="mb-3">
+					<label for="exampleFormControlTextarea1" class="form-label">コメント</label>
+					<textarea class="form-control" id="exampleFormControlTextarea1" rows="2"placeholder="comment" name="comment" th:field="*{comment}"></textarea>
+				</div>
+				<button type="submit" class="btn btn-primary mb-3">コメントする</button>
+			</form>
+		</div>
+		<div class="col-lg-2">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-4">
+		</div>
+		<div class="col-lg-4 col">
+			<div class="table-responsive">		
+				<table class="table table-bordered" th:each="userComment : ${userCommentList}" th:object=${userComment}>
+					<tr class="table-secondary" >
+						<td th:text="*{userName}">userName</td>
+						<td th:text="*{#temporals.format(dateTime, 'yyyy/MM/dd HH:mm:ss')}">datetime</td>
+					</tr>
+					<tr>
+						<td colspan="2" th:text="*{comment}">comment</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="col-lg-4">
+		</div>	
+	</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
